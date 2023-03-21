@@ -15,12 +15,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.boot_mybatis.dao.MovieMapper;
+import com.example.boot_mybatis.service.MovieService;
 
 @Controller
 public class MoviesController {
 	
 	@Autowired
-	private MovieMapper movieMapper;
+	private MovieService movieService;
 	
 	@GetMapping("/")
 	public String getMovielist(Model model,
@@ -29,7 +30,7 @@ public class MoviesController {
 								@RequestParam(value="todate",defaultValue ="3000-01-01" )@DateTimeFormat(pattern = "yyyy-MM-dd")Date toDate,
 								@RequestParam(value="search",defaultValue = "") String Search) {
 		
-		model.addAttribute("Movielist", movieMapper.getListMovie());
+		model.addAttribute("Movielist", movieService.getListMovie());
 		
 		return "movie";
 
