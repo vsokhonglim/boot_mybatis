@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.boot_mybatis.dao.MovieMapper">
+
+
+	<resultMap type="com.example.boot_mybatis.model.Movie" id="movielist">
+		<id property="id" column="movie_id"></id>
+		<result property="title" column="movie_title" />
+		<result property="description" column="movie_description" />
+		<result property="releasedate" column="movie_releasedate" />
+		
+
+	</resultMap>
+
+
+	<select id="getListMovie" resultType="com.example.boot_mybatis.model.Movie" parameterType="Map"
+		resultMap="movielist">
+		SELECT * FROM movie
+		
+		
+	</select>
+	
+
+</mapper>
