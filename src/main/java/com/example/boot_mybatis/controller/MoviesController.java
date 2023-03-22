@@ -14,7 +14,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.example.boot_mybatis.dao.GenreMapper;
 import com.example.boot_mybatis.dao.MovieMapper;
+import com.example.boot_mybatis.service.GenreService;
 import com.example.boot_mybatis.service.MovieService;
 
 @Controller
@@ -22,6 +24,12 @@ public class MoviesController {
 	
 	@Autowired
 	private MovieService movieService;
+	
+	@Autowired
+	private GenreService genreService;
+	
+	@Autowired
+	private GenreMapper genreMapper;
 	
 	@GetMapping("/")
 	public String getMovielist(Model model,
@@ -31,8 +39,18 @@ public class MoviesController {
 								@RequestParam(value="search",defaultValue = "") String Search) {
 		
 		model.addAttribute("Movielist", movieService.getListMovie());
+		model.addAttribute("GenreList", genreService.GetAllGenre());
+		
 		
 		return "movie";
+
+	}
+	@GetMapping("/test")
+	public String getfrag() {
+		
+		System.out.println(genreMapper.getMoviebyGenre());
+		
+		return "fragments/sidenav";
 
 	}
 

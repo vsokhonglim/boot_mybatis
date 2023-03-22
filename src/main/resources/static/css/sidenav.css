@@ -1,0 +1,132 @@
+@charset "ISO-8859-1";
+
+@import url("https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap");
+
+:root {
+    --header-height: 3rem;
+    --nav-width: 68px;
+    --first-color: #343a40;
+    --first-color-light: #adb5bd;
+    --white-color: #f8f9fa;
+    --body-font: 'Nunito', sans-serif;
+    --normal-font-size: 1rem;
+    
+    
+}
+
+*,
+::before,
+::after {
+    box-sizing: border-box
+}
+
+body {
+    position: relative;    
+    font-family: var(--body-font);
+    font-size: var(--normal-font-size);
+
+    
+        
+}
+
+a {
+    text-decoration: none
+}
+
+.l-navbar {
+    
+    height: 100vh;
+    background-color: var(--first-color);
+    padding: .5rem 1rem 0 0;
+    transition: .5s;
+    
+}
+
+.nav {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    overflow: hidden
+}
+
+.nav_logo,
+.nav_link {
+    display: grid;
+    grid-template-columns: max-content max-content;
+    align-items: center;
+    column-gap: 1rem;
+    padding: .5rem 0 .5rem 1.5rem
+}
+
+.nav_logo {
+    margin-bottom: 2rem
+}
+
+.nav_logo-icon {
+    font-size: 1.25rem;
+    color: var(--white-color)
+}
+
+.nav_logo-name {
+    color: var(--white-color);
+    font-weight: 700
+}
+
+.nav_link {
+    position: relative;
+    color: var(--first-color-light);
+    margin-bottom: 1.5rem;
+    transition: .3s
+}
+
+.nav_link:hover {
+    color: var(--white-color)
+}
+
+.nav_icon {
+    font-size: 1.25rem
+}
+
+.table-wrapper{
+	height: 100vh;
+	overflow: scroll;
+	overflow-x: hidden;
+}
+
+.table-header{
+	background-color: var(--first-color);
+	background: var(--first-color);
+	color:var(--first-color-light);
+}
+
+
+
+.active {
+    color: var(--white-color);
+    transition-property: background-color;
+  	transition-duration: 1s;
+}
+
+.headert{
+	height: auto;
+}
+
+.active::before {
+ 	content: '';
+    position: fixed;
+    left: 0px;
+    width: 2px;
+    height: 32px;
+     background-color: var(--white-color);
+   
+   
+    
+}
+
+.height-100 {
+    height: 100vh
+}
+.container-fluid{
+	padding-left:0px;
+}
