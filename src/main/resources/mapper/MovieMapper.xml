@@ -36,7 +36,8 @@
 							AND (movie_title LIKE #{search} || movie_description LIKE #{search})
 				  		</if>
 				  		ORDER BY movie_releasedate ${sortby}
-						LIMIT 10 OFFSET #{offset}				
+						LIMIT 10
+						OFFSET #{offset}				
 						)as m1
 						
 		Inner join movie_genre
@@ -50,7 +51,9 @@
 				genre.genre_id = #{genre1}
 			</foreach>
 		</if>
-		ORDER BY movie_genre.genre_id,movie_releasedate ${sortby}
+	
+		<!-- LIMIT 10 OFFSET #{offset} -->   
+		
 		
 	</select>
 	
