@@ -25,15 +25,32 @@
 	</resultMap>
 
 
-	<select id="getListMovie" resultType="com.example.boot_mybatis.model.Movie" parameterType="Map"
+	<select id="getListMovie" parameterType="Map"
 		resultMap="movielist">
-		SELECT * FROM movie
-		
+		SELECT * FROM (
+				SELECT * FROM movie where 
+				
+						(movie_releasedate between #{fromdate} and #{todate})
+				
+						<if test="search != '' and search != null">
+							AND (movie_title LIKE #{search} || movie_description LIKE #{search})
+				  		</if>
+				  		ORDER BY movie_releasedate ${sortby}
+						LIMIT 10 OFFSET #{offset}				
+						)as m1
+						
 		Inner join movie_genre
-		On movie.movie_id = movie_genre.movie_id
+		On m1.movie_id = movie_genre.movie_id 
+						
 		Inner join genre
-		on movie_genre.genre_id = genre.genre_id
-		
+		on movie_genre.genre_id = genre.genre_id 
+		<if test="genre != null and genre !=''">
+			WHERE 1=1 AND
+			<foreach collection="genre" item="genre1" separator="OR">
+				genre.genre_id = #{genre1}
+			</foreach>
+		</if>
+		ORDER BY movie_genre.genre_id,movie_releasedate ${sortby}
 		
 	</select>
 	

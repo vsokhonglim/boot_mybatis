@@ -16,8 +16,14 @@
         crossorigin="anonymous"></script>
         <!--  <link th:href="@{/css/welcome.css}" rel="stylesheet"> -->
         <link th:href="@{/css/sidenav.css}" rel="stylesheet">
-  <script type="text/javascript" th:src="@{/js/sidenav.js}"></script>
-    <title>Document</title>
+  	<script type="text/javascript" th:src="@{/js/sidenav.js}"></script>
+	<script	src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.js">
+	</script>
+	<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css"
+	rel="stylesheet" />
+	<script	src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js">
+	</script>
+<title>Document</title>
 </head>
 
 <body>
@@ -28,45 +34,72 @@
 	<div th:insert="~{fragments/sidenav.html :: sidenav}" th:remove="tag"></div>
 	<div class="col-11 table-wrapper">
 	<div class="headert mb-2 mt-3">
+	<form action="" method="Get">
 		<div class="row">
 		<span><strong>Search Term:</strong></span>
 		</div>
 		
 		<div class="row mb-2">
 			<div class="col-11">
-				<input type="text" class="form-control" placeholder="Search by Title or Description">
+				<input type="text" class="form-control" placeholder="Search by Title or Description" name="search" th:value="${param.search}">
 			</div>
 			<div class="col">
-			<button type="button" class="btn btn-secondary col-12">Search</button>
+			<button type="submit" class="btn btn-secondary col-12">Search</button>
 			</div>
 		</div>
 		
 		<div class="row">
 			<div class="col">
 			<span><strong>Genre:</strong></span> 
-			<select class="form-select" aria-label="Default select example">
-				<option th:each="genre : ${GenreList}" th:value="${genre.id}"
-				th:text="${genre.genre}"></option>
-			</select>
+			
+			
+			<th:block th:if="${param.genre != null}">
+				<select id="genre" class="form-select" aria-label="Default select example" multiple="multiple" name="genre">
+					<option th:each="genre : ${GenreList}" th:value="${genre.id}" 				
+					th:selected="${param.genre.contains(#strings.toString(genre.id))}"				
+					th:text="${genre.genre}"  ></option>
+				</select>
+			</th:block>
+			<th:block th:unless="${param.genre != null}">
+				<select id="genre" class="form-select" aria-label="Default select example" multiple="multiple" name="genre">
+					<option th:each="genre : ${GenreList}" th:value="${genre.id}" 				
+					th:text="${genre.genre}"  ></option>
+				</select>
+			</th:block>
+			
+			
+			
 			</div>
 			<div class="col">
 			<span><strong>From:</strong></span>
-			<input type="date" class="form-control">
+			<input type="date" class="form-control" name="from" th:value="${param.from}">
 			</div>
 			<div class="col">
 			<span><strong>To:</strong></span>
-			<input type="date" class="form-control">
+			<input type="date" class="form-control" name="to" th:value="${param.to}">
 			</div>
 			<div class="col">
 			<span><strong>Sort by:</strong></span>
-			<select class="form-select" aria-label="Default select example">
-				<option value="1">Ascending </option>
-				<option value="2">Descending </option>
-			</select>
+			<th:block th:if="${param.sortby != null}">
+				<select class="form-select" aria-label="Default select example" name="sortby">
+					<option th:value="ASC" th:text="Ascending" th:selected="${param.sortby.contains('ASC')}" > </option>
+					<option th:value="DESC" th:text="Descending" th:selected="${param.sortby.contains('DESC')}"> </option>
+				</select>
+			</th:block>
+			<th:block th:unless="${param.sortby != null}">
+				<select class="form-select" aria-label="Default select example" name="sortby">
+					<option th:value="ASC" th:text="Ascending"> </option>
+					<option th:value="DESC" th:text="Descending"> </option>
+				</select>
+			</th:block>
+			
+			
 			</div>
 		</div>
+	</form>
 		
 	</div>
+	
 	<table class="table table-hover">
 		<thead class="table-header">
 			<tr>
@@ -120,6 +153,12 @@
 	
 	</div>
 	</div>
+	<script type="text/javascript">
+
+			$(document).ready(function() {
+				$("#genre").select2();
+			});
+		</script>
 </body>
 
 </html>

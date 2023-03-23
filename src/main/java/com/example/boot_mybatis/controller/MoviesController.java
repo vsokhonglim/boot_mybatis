@@ -33,12 +33,17 @@ public class MoviesController {
 	
 	@GetMapping("/")
 	public String getMovielist(Model model,
-								@RequestParam(value = "page", defaultValue = "1", required = false) int pageNum,
-								@RequestParam(value="fromdate",defaultValue = "1900-01-01")@DateTimeFormat(pattern = "yyyy-MM-dd")Date fromDate,
-								@RequestParam(value="todate",defaultValue ="3000-01-01" )@DateTimeFormat(pattern = "yyyy-MM-dd")Date toDate,
-								@RequestParam(value="search",defaultValue = "") String Search) {
+	@RequestParam(value = "page", defaultValue = "1", required = false) int pageNum,
+	@RequestParam(value="from",defaultValue = "1900-01-01")@DateTimeFormat(pattern = "yyyy-MM-dd")Date fromDate,
+	@RequestParam(value="to",defaultValue ="3000-01-01" )@DateTimeFormat(pattern = "yyyy-MM-dd")Date toDate,
+	@RequestParam(value="search",defaultValue = "") String Search,
+	@RequestParam(value="genre", required = false) String[] Genre,
+	@RequestParam(value="sortby", defaultValue = "ASC",required = false) String SortBy) {
 		
-		model.addAttribute("Movielist", movieService.getListMovie());
+		
+		
+		int OffSet = (pageNum-1) *10;
+		model.addAttribute("Movielist", movieService.getListMovie(Search,Genre,OffSet,fromDate,toDate,SortBy));
 		model.addAttribute("GenreList", genreService.GetAllGenre());
 		
 		
