@@ -15,4 +15,6 @@ public interface MovieService {
 	public int addMovie(Movie movie);
 	
 	public void addMovieGenre(int movie_id, int genre_id);
+
+	public Movie getMoviebyId(int id);
 }

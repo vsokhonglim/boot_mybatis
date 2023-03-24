@@ -76,6 +76,21 @@
 		
 
 	</insert>
+	
+	<select id="getMoviebyId" parameterType="Int"
+		resultMap="movielist">
+		
+		SELECT * FROM (
+		SELECT * FROM movie where movie_id = ${id}) as m1
+
+		Inner join movie_genre
+		On m1.movie_id = movie_genre.movie_id
+		Inner join genre
+		on movie_genre.genre_id = genre.genre_id
+		
+	</select>
+	
+	
 
 
 

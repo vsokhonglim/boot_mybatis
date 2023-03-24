@@ -83,22 +83,33 @@ public class MoviesController {
 	
 	@PostMapping("/movie/save")
 	public String saveMovie(@ModelAttribute("movie") Movie movie) {
-		
-	
-		int newMovieId= movieService.addMovie(movie);
-		System.out.println(movie);
-		System.out.println(movie.getMovieGenre());
 		System.out.println(movie.getId());
-		System.out.println(newMovieId);
-		
-		for(Genre genre : movie.getMovieGenre()) {
-			
-			movieService.addMovieGenre(movie.getId(),genre.getId());
-			
+	
+		if(movie.getId() == 0) {
+			int newMovieId= movieService.addMovie(movie);
+						
+			for(Genre genre : movie.getMovieGenre()) {
+				
+				movieService.addMovieGenre(movie.getId(),genre.getId());
+				
+			}
+		}
+		else {
+			/* movieService.updateMovie */
 		}
 		
 		return "redirect:/";
 
+	}
+	
+	@GetMapping("/movie/update/{id}")
+	public String updateMovie(@PathVariable(value = "id") int id, Model model){
+		
+		model.addAttribute("movie",movieService.getMoviebyId(id));
+		
+		model.addAttribute("GenreList", genreService.GetAllGenre());
+		return "add-movie";
+		
 	}
 	
 	
@@ -109,10 +120,10 @@ public class MoviesController {
 	}
 	
 	
-	 @InitBinder
-	  public void initBinder(WebDataBinder binder) {
-		 
-	  binder.registerCustomEditor(Genre.class, stringToGenre);
-}
+	
+	  @InitBinder public void initBinder(WebDataBinder binder) {
+	  
+	  binder.registerCustomEditor(Genre.class, stringToGenre); }
+	 
 
 }

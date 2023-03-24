@@ -28,6 +28,8 @@ public interface MovieMapper {
 	public int addMovie(@Param("movie") Movie movie);
 	
 	public void addMovieGenre(@Param("movie_id") int movie_id, @Param("genre_id")int genre_id );
+
+	public Movie getMoviebyId(@Param("id") int id);
 	
 		
 }

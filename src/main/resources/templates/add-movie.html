@@ -14,7 +14,7 @@
         integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
         crossorigin="anonymous"></script>
         
-        <link rel="stylesheet" href="movie.css">
+        <!-- <link rel="stylesheet" href="movie.css"> -->
         
         <!-- Select2 -->
         <script	src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.js">
@@ -32,7 +32,10 @@
             Mooovie
         </h1>
 		<form method="POST" th:object="${movie}" th:action="@{/movie/save}">
+		
+			<input type="hidden" th:field="*{id}" />
 	        <div class="form-floating mb-3">
+	        
 	            <input type="text" class="form-control" id="floatingInput" placeholder="Title" th:field="*{title}">
 	            <label for="floatingInput" class="fw-semibold">Movie Title</label>
 	        </div>
@@ -47,10 +50,11 @@
 	        <input class="form-control mb-3" type="date" placeholder="Default input" aria-label="default input example" th:field="*{releasedate}">
 	        <span class="fw-semibold mx-2">
 	            Genre:
+	            <th:block th:text="${movie.movieGenre}"></th:block>
 	        </span>
-	        <select id="genre" class="form-select" multiple="multiple" name="genre" th:field="*{movieGenre}">
-	            <option th:each="genre : ${GenreList}" th:value="${genre.id}" 							
-						th:text="${genre.genre}"  ></option>
+	        <select id="genre" class="form-select" multiple="multiple" name="genre">
+	               <option th:each="genre : ${GenreList}" th:value="${genre.id}" 							
+						th:text="${genre}"  th:selected="${movie.movieGenre.contains(#strings.toString(genre))}"></option>
 	        </select>
 	        
 	        

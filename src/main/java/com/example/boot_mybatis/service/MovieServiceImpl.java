@@ -35,4 +35,10 @@ public class MovieServiceImpl implements MovieService {
 			
 		}
 
+		@Override
+		public Movie getMoviebyId(int id) {
+			
+			return movieMapper.getMoviebyId(id);
+		}
+
 }
