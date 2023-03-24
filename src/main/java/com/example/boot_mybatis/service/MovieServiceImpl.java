@@ -23,4 +23,16 @@ public class MovieServiceImpl implements MovieService {
 	
 	}
 
+		@Override
+		public int addMovie(Movie movie) {
+			return movieMapper.addMovie(movie);
+			
+		}
+
+		@Override
+		public void addMovieGenre(int movie_id, int genre_id) {
+			movieMapper.addMovieGenre(movie_id, genre_id);
+			
+		}
+
 }

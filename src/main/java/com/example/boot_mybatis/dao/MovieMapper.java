@@ -24,6 +24,10 @@ public interface MovieMapper {
 									@Param("fromdate") Date fromDate,
 									@Param("todate") Date toDate,
 									@Param("sortby") String SortBy);
+
+	public int addMovie(@Param("movie") Movie movie);
+	
+	public void addMovieGenre(@Param("movie_id") int movie_id, @Param("genre_id")int genre_id );
 	
 		
 }

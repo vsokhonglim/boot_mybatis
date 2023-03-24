@@ -10,12 +10,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-
+import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.boot_mybatis.dao.GenreMapper;
 import com.example.boot_mybatis.dao.MovieMapper;
+import com.example.boot_mybatis.formatter.StringToGenre;
+import com.example.boot_mybatis.model.Genre;
+import com.example.boot_mybatis.model.Movie;
 import com.example.boot_mybatis.service.GenreService;
 import com.example.boot_mybatis.service.MovieService;
 
@@ -31,10 +39,13 @@ public class MoviesController {
 	@Autowired
 	private GenreMapper genreMapper;
 	
+	@Autowired
+	private StringToGenre stringToGenre;
+	
 	@GetMapping("/")
 	public String getMovielist(Model model,
 	@RequestParam(value = "page", defaultValue = "1", required = false) int pageNum,
-	@RequestParam(value="from",defaultValue = "1900-01-01")@DateTimeFormat(pattern = "yyyy-MM-dd")Date fromDate,
+	@RequestParam(value="from",defaultValue = "0001-01-01")@DateTimeFormat(pattern = "yyyy-MM-dd")Date fromDate,
 	@RequestParam(value="to",defaultValue ="3000-01-01" )@DateTimeFormat(pattern = "yyyy-MM-dd")Date toDate,
 	@RequestParam(value="search",defaultValue = "") String Search,
 	@RequestParam(value="genre", required = false) String[] Genre,
@@ -58,5 +69,50 @@ public class MoviesController {
 		return "fragments/sidenav";
 
 	}
+	
+	@GetMapping("/addnew")
+	public String addmovie(Model model, Movie movie) {
+		
+		movie = new Movie();
+		model.addAttribute("movie", movie);
+		model.addAttribute("GenreList", genreService.GetAllGenre());
+		
+		return "add-movie";
+
+	}
+	
+	@PostMapping("/movie/save")
+	public String saveMovie(@ModelAttribute("movie") Movie movie) {
+		
+	
+		int newMovieId= movieService.addMovie(movie);
+		System.out.println(movie);
+		System.out.println(movie.getMovieGenre());
+		System.out.println(movie.getId());
+		System.out.println(newMovieId);
+		
+		for(Genre genre : movie.getMovieGenre()) {
+			
+			movieService.addMovieGenre(movie.getId(),genre.getId());
+			
+		}
+		
+		return "redirect:/";
+
+	}
+	
+	
+	@DeleteMapping("/movie/delete/{id}")
+	public boolean deleteMovie(@PathVariable(value = "id") int id){
+		return false;
+		
+	}
+	
+	
+	 @InitBinder
+	  public void initBinder(WebDataBinder binder) {
+		 
+	  binder.registerCustomEditor(Genre.class, stringToGenre);
+}
 
 }

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	xmlns:th="http://www.thymeleaf.org"
+	layout:decorate="~{fragments/layout}">
+
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+        crossorigin="anonymous"></script>
+        
+        <link rel="stylesheet" href="movie.css">
+        
+        <!-- Select2 -->
+        <script	src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.js">
+	</script>
+	<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css"
+	rel="stylesheet" />
+	<script	src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js">
+	</script>
+    <title>Document</title>
+</head>
+
+<body>
+    <div class="container">
+        <h1 class="text-center mb-5">
+            Mooovie
+        </h1>
+		<form method="POST" th:object="${movie}" th:action="@{/movie/save}">
+	        <div class="form-floating mb-3">
+	            <input type="text" class="form-control" id="floatingInput" placeholder="Title" th:field="*{title}">
+	            <label for="floatingInput" class="fw-semibold">Movie Title</label>
+	        </div>
+	
+	
+	        <div class="form-floating mb-3 ">
+	            <textarea type="text" class="form-control description-form" id="floatingDescription" placeholder="Description" th:field="*{description}"></textarea>
+	            <label for="floatingDescription" class="fw-semibold">Description</label>
+	        </div>
+	
+	        <span class="fw-semibold mx-2"> Release Date:</span>
+	        <input class="form-control mb-3" type="date" placeholder="Default input" aria-label="default input example" th:field="*{releasedate}">
+	        <span class="fw-semibold mx-2">
+	            Genre:
+	        </span>
+	        <select id="genre" class="form-select" multiple="multiple" name="genre" th:field="*{movieGenre}">
+	            <option th:each="genre : ${GenreList}" th:value="${genre.id}" 							
+						th:text="${genre.genre}"  ></option>
+	        </select>
+	        
+	        
+	        <input class="btn btn-primary" type="submit" value="Save" />
+	        </form>
+    </div>
+    <script type="text/javascript">
+
+			$(document).ready(function() {
+				$("#genre").select2();
+			});
+		</script>
+
+</body>
+
+</html>
