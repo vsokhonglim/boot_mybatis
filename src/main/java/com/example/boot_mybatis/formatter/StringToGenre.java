@@ -1,3 +1,4 @@
+
 package com.example.boot_mybatis.formatter;
 
 import org.springframework.beans.propertyeditors.PropertiesEditor;
@@ -14,6 +15,4 @@ public class StringToGenre extends PropertiesEditor {
 		setValue(genre);
 	}
 
-	
-
-}
+	}
