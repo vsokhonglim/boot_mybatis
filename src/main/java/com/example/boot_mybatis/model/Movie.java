@@ -2,8 +2,7 @@ package com.example.boot_mybatis.model;
 
 import java.util.Date;
 import java.util.List;
-
-
+import java.util.Objects;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -58,6 +57,8 @@ public class Movie {
 		return "Movie [id=" + id + ", title=" + title + ", description=" + description + ", releasedate=" + releasedate
 				+ "]";
 	}
+	
+	
 	
 	
 
