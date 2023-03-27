@@ -90,6 +90,27 @@
 		
 	</select>
 	
+	<delete id="deleteMovieGenre" parameterType="int">
+
+		
+		DELETE FROM movie_genre WHERE movie_id = #{id}
+		
+	</delete>
+	
+	<update id="updateMovie">
+		UPDATE movie SET
+		movie_title = #{movie.title}, movie_description = #{movie.description},
+		movie_releasedate = #{movie.releasedate}
+		WHERE movie_id = #{movie.id}
+	</update>
+	
+	<delete id="deleteMovie" parameterType="int">
+
+		
+		DELETE FROM movie WHERE movie_id = #{id}
+		
+	</delete>
+	
 	
 
 

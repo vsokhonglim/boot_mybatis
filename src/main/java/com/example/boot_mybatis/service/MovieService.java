@@ -17,4 +17,8 @@ public interface MovieService {
 	public void addMovieGenre(int movie_id, int genre_id);
 
 	public Movie getMoviebyId(int id);
+
+	public void updateMovie(Movie movie);
+
+	public void deleteMovie(int id);
 }

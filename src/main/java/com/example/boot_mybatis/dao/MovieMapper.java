@@ -30,6 +30,12 @@ public interface MovieMapper {
 	public void addMovieGenre(@Param("movie_id") int movie_id, @Param("genre_id")int genre_id );
 
 	public Movie getMoviebyId(@Param("id") int id);
+
+	public void updateMovie(@Param("movie") Movie movie);
+
+	public void deleteMovieGenre(@Param("id") int id);
+
+	public void deleteMovie(@Param("id") int id);
 	
 		
 }

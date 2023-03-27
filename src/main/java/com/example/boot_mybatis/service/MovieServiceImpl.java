@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.boot_mybatis.dao.MovieMapper;
+import com.example.boot_mybatis.model.Genre;
 import com.example.boot_mybatis.model.Movie;
 
 @Service
@@ -39,6 +40,27 @@ public class MovieServiceImpl implements MovieService {
 		public Movie getMoviebyId(int id) {
 			
 			return movieMapper.getMoviebyId(id);
+		}
+
+		@Override
+		public void updateMovie(Movie movie) {
+			movieMapper.updateMovie(movie);
+			movieMapper.deleteMovieGenre(movie.getId());
+			
+			for (Genre genre : movie.getMovieGenre()) {
+
+				movieMapper.addMovieGenre(movie.getId(), genre.getId());
+
+			}
+			
+			
+		}
+
+		@Override
+		public void deleteMovie(int id) {
+			movieMapper.deleteMovie(id);
+			movieMapper.deleteMovieGenre(id);
+			
 		}
 
 }

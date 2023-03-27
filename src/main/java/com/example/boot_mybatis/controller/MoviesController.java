@@ -39,8 +39,9 @@ public class MoviesController {
 	@Autowired
 	private GenreMapper genreMapper;
 	
-	@Autowired
-	private StringToGenre stringToGenre;
+	
+	  @Autowired private StringToGenre stringToGenre;
+	 
 	
 	@GetMapping("/")
 	public String getMovielist(Model model,
@@ -95,7 +96,7 @@ public class MoviesController {
 			}
 		}
 		else {
-			/* movieService.updateMovie */
+			movieService.updateMovie(movie);
 		}
 		
 		return "redirect:/";
@@ -113,17 +114,22 @@ public class MoviesController {
 	}
 	
 	
-	@DeleteMapping("/movie/delete/{id}")
-	public boolean deleteMovie(@PathVariable(value = "id") int id){
-		return false;
+	@GetMapping("/movie/delete/{id}")
+	public String deleteMovie(@PathVariable(value = "id") int id){
+		
+		movieService.deleteMovie(id);
+		return "redirect:/";
 		
 	}
 	
 	
 	
-	  @InitBinder public void initBinder(WebDataBinder binder) {
-	  
-	  binder.registerCustomEditor(Genre.class, stringToGenre); }
+	
+	@InitBinder
+	public void initBinder(WebDataBinder binder) {
+
+		binder.registerCustomEditor(Genre.class, stringToGenre);
+	}
 	 
 
 }
