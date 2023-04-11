@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.format.annotation.DateTimeFormat;
@@ -53,9 +54,11 @@ public class MoviesController {
 	@RequestParam(value="sortby", defaultValue = "ASC",required = false) String SortBy) {
 		
 		
+		int limit = 10;
+		int OffSet = (pageNum-1) *limit;
 		
-		int OffSet = (pageNum-1) *10;
-		model.addAttribute("Movielist", movieService.getListMovie(Search,Genre,OffSet,fromDate,toDate,SortBy));
+		RowBounds rowBounds = new RowBounds(OffSet,limit);
+		model.addAttribute("Movielist", movieService.getListMovie(Search,Genre,rowBounds,fromDate,toDate,SortBy));
 		model.addAttribute("GenreList", genreService.GetAllGenre());
 		
 		
@@ -106,7 +109,10 @@ public class MoviesController {
 	@GetMapping("/movie/update/{id}")
 	public String updateMovie(@PathVariable(value = "id") int id, Model model){
 		
-		model.addAttribute("movie",movieService.getMoviebyId(id));
+		Movie movie = movieService.getMoviebyId(id);
+		System.out.println(movie);
+		model.addAttribute("movie",movie);
+		
 		
 		model.addAttribute("GenreList", genreService.GetAllGenre());
 		return "add-movie";

@@ -3,6 +3,7 @@ package com.example.boot_mybatis.service;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,7 +18,7 @@ public class MovieServiceImpl implements MovieService {
 	private MovieMapper movieMapper;
 	
 		@Override
-	public List<Movie> getListMovie(String search, String[] genre, int pageNum, Date fromDate, Date toDate,String SortBy) {
+	public List<Movie> getListMovie(String search, String[] genre, RowBounds pageNum, Date fromDate, Date toDate,String SortBy) {
 		
 						
 		return movieMapper.getListMovie("%"+search+"%",genre,pageNum,fromDate,toDate,SortBy);

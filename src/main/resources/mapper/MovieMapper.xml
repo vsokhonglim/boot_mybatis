@@ -6,11 +6,7 @@
 <mapper namespace="com.example.boot_mybatis.dao.MovieMapper">
 
 
-	<resultMap type="com.example.boot_mybatis.model.Genre"
-		id="genre">
-		<id property="id" column="genre_id"></id>
-		<result property="genre" column="genre" />
-	</resultMap>
+
 
 	<resultMap type="com.example.boot_mybatis.model.Movie"
 		id="movielist">
@@ -18,8 +14,8 @@
 		<result property="title" column="movie_title" />
 		<result property="description" column="movie_description" />
 		<result property="releasedate" column="movie_releasedate" />
-		<collection property="movieGenre" ofType="genre"
-			resultMap="genre">
+		<collection property="movieGenre" ofType="com.example.boot_mybatis.model.Genre"
+			>
 			<id property="id" column="genre_id"></id>
 			<result property="genre" column="genre" />
 		</collection>
@@ -29,8 +25,8 @@
 
 
 	<select id="getListMovie" parameterType="Map"
-		resultMap="movielist">
-		SELECT * FROM (
+		resultMap="movielist" resultSetType="SCROLL_SENSITIVE">
+		<!-- SELECT * FROM (
 		SELECT * FROM movie where
 
 		(movie_releasedate between #{fromdate} and #{todate})
@@ -39,7 +35,7 @@
 			AND (movie_title LIKE #{search} || movie_description LIKE #{search})
 		</if>
 		
-		<!-- LIMIT 10 OFFSET #{offset} -->
+		LIMIT 10 OFFSET #{offset}
 		)as m1
 
 		Inner join movie_genre
@@ -57,8 +53,24 @@
 		
 		
 
-		<!-- LIMIT 10 OFFSET #{offset} -->
+		LIMIT 10 OFFSET #{offset} -->
+		
+		SELECT * FROM (
+		SELECT * FROM movie)as m1
+		Inner join movie_genre
+		On m1.movie_id = movie_genre.movie_id
 
+		Inner join genre
+		on movie_genre.genre_id = genre.genre_id
+		<if test="genre != null and genre !=''">
+			WHERE 1=1 AND
+			<foreach collection="genre" item="genre1" separator="OR">
+				genre.genre_id = #{genre1}
+			</foreach>
+		</if>
+		
+		AND movie_releasedate between #{fromdate} and #{todate}
+		ORDER BY movie_releasedate ${sortby} 
 
 	</select>
 

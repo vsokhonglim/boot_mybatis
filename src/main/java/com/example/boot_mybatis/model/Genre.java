@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Objects;
 
 public class Genre {
+	
 	private int id;
 	private String genre;
 	private List<Movie> movie;

@@ -65,7 +65,9 @@
 	           
 	           
 	        </span>
-	        <th:block th:if="${movieGenre != null}">
+	        
+	        <th:block th:if="${movie.movieGenre != null}">
+	  
 			        <select id="movieGenre" class="form-select" multiple="multiple" name="movieGenre">
 			               <option th:each="genre : ${GenreList}" 
 			               		th:value="${genre.id}"
@@ -75,8 +77,8 @@
 			        </select>
 	        </th:block>
 	        
-	        <th:block th:unless="${movieGenre != null}">
-			        <select id="movieGenre" class="form-select" multiple="multiple" name="movieGenre">
+	        <th:block th:unless="${movie.movieGenre != null}">
+	    	        <select id="movieGenre" class="form-select" multiple="multiple" name="movieGenre">
 			               <option th:each="genre : ${GenreList}" 
 			               		th:value="${genre.id}"
 								th:text="${genre.genre}"

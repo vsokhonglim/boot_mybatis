@@ -8,6 +8,7 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
@@ -20,7 +21,7 @@ public interface MovieMapper {
 	
 	public List<Movie> getListMovie(@Param("search") String search,
 									@Param("genre") String[] genre,
-									@Param("offset") int pageNum,
+									RowBounds pageNum,
 									@Param("fromdate") Date fromDate,
 									@Param("todate") Date toDate,
 									@Param("sortby") String SortBy);
