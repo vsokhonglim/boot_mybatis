@@ -64,4 +64,10 @@ public class MovieServiceImpl implements MovieService {
 			
 		}
 
+		@Override
+		public int getMovieRowCount(String search, String[] genre, Date fromDate, Date toDate) {
+			
+			return movieMapper.getMovieRowCount(search, genre,fromDate, toDate);
+		}
+
 }

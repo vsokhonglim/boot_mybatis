@@ -26,51 +26,36 @@
 
 	<select id="getListMovie" parameterType="Map"
 		resultMap="movielist" resultSetType="SCROLL_SENSITIVE">
-		<!-- SELECT * FROM (
-		SELECT * FROM movie where
-
-		(movie_releasedate between #{fromdate} and #{todate})
-
-		<if test="search != '' and search != null">
-			AND (movie_title LIKE #{search} || movie_description LIKE #{search})
-		</if>
 		
-		LIMIT 10 OFFSET #{offset}
-		)as m1
-
-		Inner join movie_genre
-		On m1.movie_id = movie_genre.movie_id
-
-		Inner join genre
-		on movie_genre.genre_id = genre.genre_id
+		SELECT 
+		    m.movie_id,
+		    m.movie_title,
+		    m.movie_description,
+		    m.movie_releasedate, 
+		    group_concat(g.genre separator ", ") as genre
+		    
+		    from movie m
+		    inner join movie_genre mg
+		    on m.movie_id = mg.movie_id
+		    inner join genre g
+		    on mg.genre_id = g.genre_id
+		   <where>
 		<if test="genre != null and genre !=''">
-			WHERE 1=1 AND
-			<foreach collection="genre" item="genre1" separator="OR">
-				genre.genre_id = #{genre1}
+			
+			<foreach collection="genre" item="genre1" separator="OR" open="AND">
+				g.genre_id = #{genre1}
 			</foreach>
 		</if>
-		ORDER BY movie_releasedate ${sortby}
-		
-		
-
-		LIMIT 10 OFFSET #{offset} -->
-		
-		SELECT * FROM (
-		SELECT * FROM movie)as m1
-		Inner join movie_genre
-		On m1.movie_id = movie_genre.movie_id
-
-		Inner join genre
-		on movie_genre.genre_id = genre.genre_id
-		<if test="genre != null and genre !=''">
-			WHERE 1=1 AND
-			<foreach collection="genre" item="genre1" separator="OR">
-				genre.genre_id = #{genre1}
-			</foreach>
+		AND m.movie_releasedate between #{fromdate} and #{todate}
+		<if test="search !=null and search !=''">
+		AND (m.movie_title LIKE #{search} or m.movie_description LIKE #{search})
 		</if>
+		</where>
 		
-		AND movie_releasedate between #{fromdate} and #{todate}
-		ORDER BY movie_releasedate ${sortby} 
+		
+		 group by m.movie_id
+		ORDER BY movie_releasedate ${sortby} , m.movie_id
+		
 
 	</select>
 
@@ -122,6 +107,46 @@
 		DELETE FROM movie WHERE movie_id = #{id}
 		
 	</delete>
+	
+	<select id="getMovieRowCount" parameterType="Map"
+		resultType="int">
+		
+		SELECT COUNT(*) 
+
+		FROM(
+		
+		SELECT 
+		    m.movie_id,
+		    m.movie_title,
+		    m.movie_description,
+		    m.movie_releasedate, 
+		    group_concat(g.genre separator ", ") as genre
+		    
+		    from movie m
+		    inner join movie_genre mg
+		    on m.movie_id = mg.movie_id
+		    inner join genre g
+		    on mg.genre_id = g.genre_id
+		   
+		   <where>
+		   
+		<if test="genre != null and genre !=''">
+			
+			<foreach collection="genre" item="genre1" separator="OR" open="AND">
+				g.genre_id = #{genre1}
+			</foreach>
+		</if>
+		AND movie_releasedate between #{fromdate} and #{todate}
+		<if test="search !=null and search !=''">
+		AND (movie_title LIKE #{search} or movie_description LIKE #{search})
+		</if>
+		</where>
+		
+		 group by m.movie_id
+		 ) as movierowcount
+		
+
+	</select>
 	
 	
 

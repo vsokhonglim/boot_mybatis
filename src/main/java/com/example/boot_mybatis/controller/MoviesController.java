@@ -50,16 +50,22 @@ public class MoviesController {
 	@RequestParam(value="from",defaultValue = "0001-01-01")@DateTimeFormat(pattern = "yyyy-MM-dd")Date fromDate,
 	@RequestParam(value="to",defaultValue ="3000-01-01" )@DateTimeFormat(pattern = "yyyy-MM-dd")Date toDate,
 	@RequestParam(value="search",defaultValue = "") String Search,
-	@RequestParam(value="genre", required = false) String[] Genre,
+	@RequestParam(value="genre",required = false) String[] Genre,
 	@RequestParam(value="sortby", defaultValue = "ASC",required = false) String SortBy) {
 		
 		
+		int rowCount = movieService.getMovieRowCount(Search,Genre,fromDate,toDate);
 		int limit = 10;
-		int OffSet = (pageNum-1) *limit;
-		
-		RowBounds rowBounds = new RowBounds(OffSet,limit);
+		int offset = (pageNum-1) * limit;
+		int pageCount = (int) Math.ceil((double)rowCount/ (double)limit);
+				
+		RowBounds rowBounds = new RowBounds(offset,limit);
 		model.addAttribute("Movielist", movieService.getListMovie(Search,Genre,rowBounds,fromDate,toDate,SortBy));
 		model.addAttribute("GenreList", genreService.GetAllGenre());
+		model.addAttribute("limit",limit);
+		model.addAttribute("rowCount",rowCount);
+		model.addAttribute("pageNum",pageNum);
+		model.addAttribute("pageCount",pageCount);
 		
 		
 		return "movie";

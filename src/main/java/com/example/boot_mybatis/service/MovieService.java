@@ -22,4 +22,6 @@ public interface MovieService {
 	public void updateMovie(Movie movie);
 
 	public void deleteMovie(int id);
+
+	public int getMovieRowCount(String search, String[] genre, Date fromDate, Date toDate);
 }

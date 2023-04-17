@@ -37,6 +37,11 @@ public interface MovieMapper {
 	public void deleteMovieGenre(@Param("id") int id);
 
 	public void deleteMovie(@Param("id") int id);
+
+	public int getMovieRowCount(@Param("search") String search,
+			@Param("genre") String[] genre, 
+			@Param("fromdate") Date fromDate, 
+			@Param("todate") Date toDate);
 	
 		
 }
