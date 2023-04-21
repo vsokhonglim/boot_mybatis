@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.boot_mybatis.dao.GenreMapper;
 import com.example.boot_mybatis.dao.MovieMapper;
+import com.example.boot_mybatis.exceptions.MovieNotFoundException;
 import com.example.boot_mybatis.formatter.StringToGenre;
 import com.example.boot_mybatis.model.Genre;
 import com.example.boot_mybatis.model.Movie;
@@ -113,15 +114,23 @@ public class MoviesController {
 	}
 	
 	@GetMapping("/movie/update/{id}")
-	public String updateMovie(@PathVariable(value = "id") int id, Model model){
+	public String updateMovie(@PathVariable(value = "id") int id, Model model) throws MovieNotFoundException{
 		
 		Movie movie = movieService.getMoviebyId(id);
+		
+		if(movie == null) {
+			throw MovieNotFoundException.createWith(id);
+			
+		}
+		
 		System.out.println(movie);
 		model.addAttribute("movie",movie);
 		
 		
 		model.addAttribute("GenreList", genreService.GetAllGenre());
+		
 		return "add-movie";
+	
 		
 	}
 	
