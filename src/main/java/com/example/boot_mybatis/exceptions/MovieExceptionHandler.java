@@ -30,4 +30,6 @@ public class MovieExceptionHandler {
 			return "notfound";
 			
 		}
+		
+	
 }

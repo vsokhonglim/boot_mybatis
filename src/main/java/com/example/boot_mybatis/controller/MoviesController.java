@@ -72,6 +72,16 @@ public class MoviesController {
 		return "movie";
 
 	}
+	
+	@GetMapping("/error")
+	public String error() {
+		
+	
+		
+		return "error";
+
+	}
+	
 	@GetMapping("/test")
 	public String getfrag() {
 		
